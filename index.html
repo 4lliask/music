@@ -12,14 +12,71 @@
             background-color: #1a1a1a;
             color: white;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         h1 {
             font-size: 3em;
             margin: 20px 0;
+            flex-grow: 1;
+        }
+        footer {
+            background-color: #0a0a0a;
+            padding: 30px 20px;
+            border-top: 2px solid #333;
+            margin-top: 40px;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: #1db954;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: #1ed760;
+        }
+        .contact {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .contact a {
+            color: #1db954;
+            text-decoration: none;
+        }
+        .contact a:hover {
+            color: #1ed760;
+        }
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.8em;
+            color: #666;
         }
     </style>
 </head>
 <body>
     <h1>Alliask</h1>
+    
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/4lliask/" target="_blank">Instagram</a>
+            <a href="https://www.youtube.com/@4lliask" target="_blank">YouTube</a>
+            <a href="https://x.com/4lliask?s=21" target="_blank">Twitter</a>
+            <a href="https://soundcloud.com/4lliask" target="_blank">SoundCloud</a>
+        </div>
+        
+        <div class="contact">
+            <p>Contact: <a href="mailto:alliask.music@gmail.com">alliask.music@gmail.com</a></p>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2026 Alliask. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

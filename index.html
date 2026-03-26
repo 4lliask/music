@@ -28,7 +28,6 @@
             cursor: none;
         }
 
-        /* Cursor */
         .cur {
             width: 10px; height: 10px;
             background: var(--white);
@@ -51,45 +50,54 @@
         }
         .cur.big { width: 18px; height: 18px; }
         .cur-ring.big { width: 52px; height: 52px; }
-
-        /* Nav */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 24px 48px;
+        .cur {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            z-index: 100;
-        }
-
-        .nav-logo {
+            justify-content: center;
             font-family: 'Bebas Neue', sans-serif;
+            font-size: 0px;
+            color: var(--black);
+        }
+        .cur::after {
+            content: '!';
+            font-size: 0px;
+            opacity: 0;
+            transition: font-size 0.25s ease, opacity 0.2s ease;
+        }
+        .cur.exclaim {
+            background: var(--white);
+            width: 44px; height: 44px;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%) rotate(0deg);
+            border-radius: 50%;
+            animation: diamondToCircle 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .cur.exclaim::after {
             font-size: 28px;
-            letter-spacing: 0.12em;
-            color: var(--white);
-            text-decoration: none;
+            opacity: 1;
+            transition: font-size 0.2s ease 0.15s, opacity 0.2s ease 0.15s;
+        }
+        .cur-ring.exclaim { opacity: 0; transition: opacity 0.2s ease; }
+        .cur.leaving {
+            background: var(--white);
             mix-blend-mode: difference;
+            animation: circleToDiamond 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .cur.leaving::after { font-size: 0px; opacity: 0; transition: font-size 0.1s ease, opacity 0.1s ease; }
+        .cur-ring.leaving { opacity: 0; }
+
+        @keyframes diamondToCircle {
+            0%   { transform: translate(-50%, -50%) rotate(45deg);  width: 10px; height: 10px; border-radius: 0; }
+            50%  { transform: translate(-50%, -50%) rotate(180deg); width: 28px; height: 28px; border-radius: 30%; }
+            100% { transform: translate(-50%, -50%) rotate(360deg); width: 48px; height: 48px; border-radius: 50%; }
         }
 
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
+        @keyframes circleToDiamond {
+            0%   { transform: translate(-50%, -50%) rotate(0deg);   width: 48px; height: 48px; border-radius: 50%; }
+            50%  { transform: translate(-50%, -50%) rotate(180deg); width: 28px; height: 28px; border-radius: 30%; }
+            100% { transform: translate(-50%, -50%) rotate(225deg); width: 10px; height: 10px; border-radius: 0; }
         }
 
-        .nav-links a {
-            font-size: 9px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--white);
-            text-decoration: none;
-            transition: color .2s;
-            mix-blend-mode: difference;
-        }
-        .nav-links a:hover { color: var(--light); }
-
-        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -101,23 +109,7 @@
             background: var(--white);
         }
 
-        .hero-line {
-            position: absolute;
-            top: 50%; left: 0; right: 0;
-            height: 1px;
-            background: rgba(0,0,0,0.07);
-            z-index: 0;
-            transform: scaleX(0);
-            transform-origin: left;
-            animation: lineIn 1.2s 0.3s cubic-bezier(0.77,0,0.18,1) forwards;
-        }
-
-        @keyframes lineIn { to { transform: scaleX(1); } }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
+        .hero-content { position: relative; z-index: 1; }
 
         .hero-title {
             font-family: 'Bebas Neue', sans-serif;
@@ -173,18 +165,10 @@
             100% { transform: scaleY(0); transform-origin: bottom; opacity: 0.3; }
         }
 
-        /* Sections */
         section { padding: 100px 48px; position: relative; }
 
-        .sec-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 64px;
-        }
-
+        .sec-header { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
         .sec-num { font-size: 9px; letter-spacing: 0.2em; color: var(--mid); }
-
         .sec-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 13px;
@@ -192,12 +176,9 @@
             text-transform: uppercase;
             color: var(--white);
         }
-
         .sec-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        /* Projects */
         #releases { border-top: 1px solid rgba(255,255,255,0.08); }
-
         .releases-list { display: flex; flex-direction: column; }
 
         .release-row {
@@ -219,9 +200,16 @@
             width: 0;
             background: rgba(255,255,255,0.03);
             transition: width .4s cubic-bezier(0.25,0.46,0.45,0.94);
+            pointer-events: none;
         }
 
         .release-row:hover::after { width: 100%; }
+        .row-cover {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            cursor: none;
+        }
         .release-row:hover .release-name { letter-spacing: 0.06em; }
 
         .rel-idx { font-size: 10px; color: var(--mid); letter-spacing: 0.1em; }
@@ -232,12 +220,15 @@
             letter-spacing: 0.04em;
             color: var(--white);
             transition: letter-spacing .3s;
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+            cursor: none;
         }
 
         .release-type { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); text-align: right; }
         .release-year { font-size: 10px; letter-spacing: 0.1em; color: var(--light); min-width: 40px; text-align: right; }
 
-        /* Gallery */
         #gallery { border-top: 1px solid rgba(255,255,255,0.08); }
 
         .gallery-grid {
@@ -290,7 +281,6 @@
 
         .g-item:hover .g-label { opacity: 1; }
 
-        /* Footer */
         footer {
             background-color: var(--black);
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -340,14 +330,10 @@
 
         .copyright { margin-top: 10px; font-size: 9px; letter-spacing: 0.12em; color: var(--mid); }
 
-        /* Reveal */
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
         .reveal.on { opacity: 1; transform: none; }
 
-        /* Mobile */
         @media (max-width: 768px) {
-            nav { padding: 20px 24px; }
-            .nav-links { display: none; }
             .hero { padding: 0 24px 64px; }
             section { padding: 72px 24px; }
             .scroll-hint { display: none; }
@@ -372,16 +358,7 @@
     <div class="cur" id="cur"></div>
     <div class="cur-ring" id="curRing"></div>
 
-    <nav>
-        <a href="#" class="nav-logo">Alliask</a>
-        <ul class="nav-links">
-            <li><a href="#releases">Projects</a></li>
-            <li><a href="#gallery">Visual</a></li>
-        </ul>
-    </nav>
-
     <div class="hero">
-        <div class="hero-line"></div>
         <div class="hero-content">
             <h1 class="hero-title">Alliask</h1>
             <p class="hero-sub">Music &amp; Visual Work</p>
@@ -397,12 +374,14 @@
         </div>
         <div class="releases-list reveal">
             <div class="release-row">
+                <a href="https://untitled.stream/library/project/bDOlWIvXjzegJP15GCjNd" target="_blank" class="row-cover"></a>
                 <span class="rel-idx">01</span>
                 <span class="release-name">Lo q es</span>
                 <span class="release-type">Single</span>
                 <span class="release-year">2026</span>
             </div>
             <div class="release-row">
+                <a href="https://untitled.stream/library/project/x10K0GoY2GQO8YJoJJ5Qj" target="_blank" class="row-cover"></a>
                 <span class="rel-idx">02</span>
                 <span class="release-name">Nada es imposible</span>
                 <span class="release-type">EP</span>
@@ -447,7 +426,7 @@
 
     <footer>
         <div class="footer-inner">
-            <div class="footer-logo">Alliask</div>
+            <div class="footer-logo" id="samplesLink" style="cursor:none;">Alliask</div>
             <div class="social-links">
                 <a href="https://www.instagram.com/4lliask/" target="_blank">Instagram</a>
                 <a href="https://www.youtube.com/@4lliask" target="_blank">YouTube</a>
@@ -462,36 +441,68 @@
             </div>
         </div>
     </footer>
-
     <script>
-        const cur = document.getElementById('cur');
-        const ring = document.getElementById('curRing');
-        let mx = 0, my = 0, rx = 0, ry = 0;
+        var cur = document.getElementById('cur');
+        var ring = document.getElementById('curRing');
+        var mx = 0, my = 0, rx = 0, ry = 0;
 
         document.addEventListener('mousemove', function(e) {
             mx = e.clientX; my = e.clientY;
             cur.style.left = mx + 'px';
-            cur.style.top  = my + 'px';
+            cur.style.top = my + 'px';
         });
 
         (function tick() {
             rx += (mx - rx) * 0.1;
             ry += (my - ry) * 0.1;
             ring.style.left = rx + 'px';
-            ring.style.top  = ry + 'px';
+            ring.style.top = ry + 'px';
             requestAnimationFrame(tick);
         })();
 
-        document.querySelectorAll('a, .release-row, .g-item').forEach(function(el) {
+        document.querySelectorAll('a, .release-row, .g-item, .footer-logo, .sp-row, .sp-back').forEach(function(el) {
             el.addEventListener('mouseenter', function() { cur.classList.add('big'); ring.classList.add('big'); });
             el.addEventListener('mouseleave', function() { cur.classList.remove('big'); ring.classList.remove('big'); });
+        });
+
+        document.querySelectorAll('a.row-cover').forEach(function(el) {
+            el.addEventListener('mouseenter', function() {
+                cur.classList.remove('leaving');
+                ring.classList.remove('leaving');
+                cur.classList.add('exclaim');
+                ring.classList.add('exclaim');
+            });
+            el.addEventListener('mouseleave', function() {
+                cur.classList.remove('exclaim');
+                ring.classList.remove('exclaim');
+                cur.classList.add('leaving');
+                ring.classList.add('leaving');
+                setTimeout(function() {
+                    cur.classList.remove('leaving');
+                    ring.classList.remove('leaving');
+                }, 400);
+            });
         });
 
         var obs = new IntersectionObserver(function(entries) {
             entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('on'); });
         }, { threshold: 0.12 });
-
         document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+        var samplesLink = document.getElementById('samplesLink');
+        var samplesPage = document.getElementById('samplesPage');
+        var spBack = document.getElementById('spBack');
+        if (samplesLink) {
+            samplesLink.addEventListener('click', function() {
+                samplesPage.style.display = 'block';
+                window.scrollTo(0, 0);
+            });
+        }
+        if (spBack) {
+            spBack.addEventListener('click', function() {
+                samplesPage.style.display = 'none';
+            });
+        }
     </script>
 </body>
 </html>
